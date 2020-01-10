@@ -1,16 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import "./styles/BadgesList.css";
-import { Link } from "react-router-dom";
+import Gravatar from "../components/Gravatar";
 
 class BadgesListItem extends React.Component {
 	render() {
 		return (
 			<div className="BadgesListItem">
-				<img
-					className="BadgesListItem__avatar"
-					src={this.props.badge.avatarUrl}
-					alt={`${this.props.badge.firstName} ${this.props.badge.lastName}`}
+				<Gravatar
+					className="Badge__avatar"
+					email={this.props.badge.email}
+					alt="Avatar"
 				/>
 
 				<div>
@@ -31,9 +32,9 @@ class BadgesList extends React.Component {
 		if (this.props.badges.length === 0) {
 			return (
 				<div>
-					<h3>No encontramos ningun badge</h3>
+					<h3>No badges were found</h3>
 					<Link className="btn btn-primary" to="/badges/new">
-						Create new badges
+						Create new badge
 					</Link>
 				</div>
 			);
