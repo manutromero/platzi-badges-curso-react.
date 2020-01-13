@@ -7,9 +7,9 @@ import PageLoading from "../components/PageLoading";
 import BadgeForm from "../components/BadgeForm";
 import api from "../api";
 
-class BadgeNew extends React.Component {
+class BadgeEdit extends React.Component {
 	state = {
-		loading: false,
+		loading: true,
 		form: {
 			firstName: "",
 			lastName: "",
@@ -18,7 +18,19 @@ class BadgeNew extends React.Component {
 			twitter: "",
 		},
 	};
+	componentDidMount() {
+		this.fetchData();
+	}
+	fetchData = async e => {
+		this.setState({ loading: true, error: null });
 
+		try {
+			const data = await api.badges.read(this.props.match.params.badgeId);
+			this.setState({ loading: false, form: data });
+		} catch (error) {
+			this.setState({ loading: false, error: error });
+		}
+	};
 	handleChange = e => {
 		this.setState({
 			form: {
@@ -34,7 +46,10 @@ class BadgeNew extends React.Component {
 			error: null,
 		});
 		try {
-			await api.badges.create(this.state.form);
+			await api.badges.update(
+				this.props.match.params.badgeId,
+				this.state.form
+			);
 			this.setState({
 				loading: false,
 				error: null,
@@ -91,4 +106,4 @@ class BadgeNew extends React.Component {
 	}
 }
 
-export default BadgeNew;
+export default BadgeEdit;
